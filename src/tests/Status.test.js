@@ -31,11 +31,13 @@ describe("Status", () => {
     status.set(Selected, Table, { t3: true });
 
     const received = status.all;
+    const received2 = status.getAll();
 
     const expected = {
       [Selected]: { [Table]: { t1: true, t3: true } }
     };
     expect(received).toEqual(expected);
+    expect(received2).toEqual(expected);
   });
 
   it("R4: should get ids of type Table by Status", () => {
@@ -46,7 +48,7 @@ describe("Status", () => {
     status.set(Selected, Table, idsTableSelected);
     status.set(Selected, Table, { t3: true });
 
-    const received = status.getByEntity(Table);
+    const received = status.getFor(Table);
 
     const expected = {
       [Focused]: { t1: true, t2: true },
@@ -60,7 +62,7 @@ describe("Status", () => {
 
     status.setMany([Focused, Selected], Table, idsTable);
 
-    const received = status.getByEntity(Table);
+    const received = status.getFor(Table);
     const expected = { [Focused]: { t1: true }, [Selected]: { t1: true } };
     expect(received).toEqual(expected);
   });

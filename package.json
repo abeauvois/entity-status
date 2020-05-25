@@ -1,17 +1,20 @@
 {
   "name": "entity-status",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
+  "version": "0.0.1",
+  "description": "Easy entity-status management",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Alexandre Beauvois",
+  "license": "MIT",
   "scripts": {
-    "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "tsc ./src/index.ts",
+    "prepublish": "tsc"
   },
   "dependencies": {
     "rambda": "5.1.0"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.6.1"
+    "typescript": "^2.7.2"
   },
-  "keywords": []
+  "keywords": ["state", "status", "entity", "entity-status"]
 }

@@ -1,19 +1,13 @@
 declare module "Status" {
-  type Id = string | number;
+  type Id = string;
   type Value = Object | boolean;
   type Targets<T> = { [key: string]: T };
 
-  type Entities<T extends string | symbol | number, V> = { [id in T]?: V };
-  type Statuses<
-    S extends string | symbol | number,
-    E extends string | symbol | number,
-    V
-  > = { [statusKey in S]?: { [entityKey in E]?: V } };
+  type Entities<T extends Id, V> = { [id in T]?: V };
 
-  type TEntities<E extends string | symbol | number> = Entities<
-    E,
-    Targets<Value>
-  >;
+  type Statuses<S extends Id, E extends Id, V> = { [statusKey in S]?: { [entityKey in E]?: V } };
+
+  type TargetedEntities<E extends Id> = Entities<E, Targets<Value>>;
 
   /*   type States = {
     statuses: {
