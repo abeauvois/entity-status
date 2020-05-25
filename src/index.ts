@@ -149,7 +149,8 @@ class Status<S extends Id, E extends Id> {
           if (!entities) {
             return;
           }
-          if (keys(entities[entityType]).includes(key as string)) {
+          // @ts-ignore
+          if (keys(entities[entityType]).includes(String(key))) {
             const targets = entities[entityType] as Targets<Value>;
             if (targets) delete targets[key];
           }
