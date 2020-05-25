@@ -17,26 +17,41 @@
   "devDependencies": {
     "@types/jest": "^23.3.12",
     "@types/node": "^8.0.0",
-    "typescript": "3.8.2",
+    "core-js": "^3",
     "jest": "^23.6.0",
-    "ts-jest": "^23.10.5",
     "prettier": "^1.15.3",
+    "ts-jest": "^23.10.5",
     "ts-morph": "^4.0.1",
     "ts-node": "^7.0.1",
     "tsc-watch": "^1.0.31",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
-    "tslint-config-standard": "^8.0.1"
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "3.8.2"
   },
-  "keywords": ["javascript", "js", "state", "status", "entity", "entity-status"],
+  "keywords": [
+    "javascript",
+    "js",
+    "state",
+    "status",
+    "entity",
+    "entity-status"
+  ],
   "jest": {
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 90,

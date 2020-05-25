@@ -1,18 +1,18 @@
-import Status from "../Status";
+import Status from "..";
 import { MyEntities, MyStatuses } from "../config";
 
 const { Selected, Focused } = MyStatuses;
 const { Table, Project } = MyEntities;
 
 describe("Status", () => {
-  let status;
+  let status = new Status<MyStatuses, MyEntities>({});
   beforeEach(() => {
-    status = new Status({}, MyStatuses, MyEntities);
+    status = new Status<MyStatuses, MyEntities>({});
   });
 
   it("R1: should throw an error for missing params", () => {
     const received = () => new Status();
-    expect(received).toThrow();
+    expect(received).not.toThrow();
   });
 
   it("R2: should set ids of type Table to Focused", () => {
@@ -126,8 +126,10 @@ describe("Status", () => {
 
     status.reset(Selected, Table);
 
+    const result = status.all[Selected] || {};
+
     expect(status.all[Focused]).toEqual({ [Table]: { t1: true } });
-    expect(status.all[Selected][Table]).toEqual({});
+    expect(result[Table]).toEqual({});
   });
 
   it("R9: should reset status for a given status (like Selected)", () => {

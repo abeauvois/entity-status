@@ -1,16 +1,14 @@
 import { keys, isEmpty, is, complement, either, isNil } from "rambda";
-import { Id, Value, Entities, Statuses, Targets, TargetedEntities } from "Status";
+import { Id, Value, Entities, Statuses, Targets, TargetedEntities } from "./types";
 
 const isNotEmpty = complement(either(isNil, isEmpty));
 
 class Status<S extends Id, E extends Id> {
   all: Statuses<S, E, TargetedEntities<E>>;
-  constructor(all: Statuses<S, E, TargetedEntities<E>> = {}, statusesTypes: S, entityTypes: E) {
-    if (!statusesTypes || !entityTypes)
-      throw new Error(`[Status] Status & Entity enums are required`);
+  constructor(all: Statuses<S, E, TargetedEntities<E>> = {}) {
     this.all = {};
   }
-
+  //TODO: private ...
   mergeEntityTypes(statusType: S): Targets<Value> {
     const inStatus = this.get(statusType); // ex: {[TABLE]: {t1: ...}, [PROJECT]: {p1: ...}}
     const types = keys(inStatus) as E[]; // ex: [TABLE, PROJECT]
@@ -21,7 +19,7 @@ class Status<S extends Id, E extends Id> {
     return allEntityTypesIds; // {t1: true, p1: true, ...}
   }
 
-  isAlready(key: Id, statusType: S, entityType: E): boolean {
+  isAlready(key: Id, statusType: S, entityType?: E): boolean {
     if (entityType) {
       const statuses = this.get(statusType);
       const inStatus = statuses && statuses[entityType];
@@ -42,8 +40,8 @@ class Status<S extends Id, E extends Id> {
       return isNotEmpty(allEntityTypesIds) ? keys(allEntityTypesIds).length > 1 : false;
     }
   }
-
-  reset(statusType: S, entityType: E): void {
+  //TODO: public ...
+  reset(statusType: S, entityType?: E): void {
     if (!statusType && !entityType) {
       this.all = {};
     }
@@ -89,24 +87,21 @@ class Status<S extends Id, E extends Id> {
 
   getFor(entityType: E) {
     const statusTypes = keys(this.all);
-    const allByType = statusTypes.reduce(
-      (acc, statusType) => {
-        const entities = this.all[statusType];
-        const targets = entities && entities[entityType];
-        if (targets) {
-          if (!acc[entityType]) {
-            acc[entityType] = {};
-          }
-          //acc[entityType][statusType] = targets => generates ts error => S can't index Entities
-          acc[entityType] = {
-            ...acc[entityType],
-            [statusType]: { ...targets }
-          };
+    const allByType = statusTypes.reduce((acc, statusType) => {
+      const entities = this.all[statusType];
+      const targets = entities && entities[entityType];
+      if (targets) {
+        if (!acc[entityType]) {
+          acc[entityType] = {};
         }
-        return acc;
-      },
-      {} as Entities<E, Statuses<S, E, Targets<Value>>>
-    );
+        //acc[entityType][statusType] = targets => generates ts error => S can't index Entities
+        acc[entityType] = {
+          ...acc[entityType],
+          [statusType]: { ...targets }
+        };
+      }
+      return acc;
+    }, {} as Entities<E, Statuses<S, E, Targets<Value>>>);
     return allByType[entityType];
   }
 
